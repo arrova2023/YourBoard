@@ -1,0 +1,79 @@
+@import 'fonts';
+@import 'theme';
+
+:root {
+  --stompbox-bg: #fff;
+  --led-color: #ba2424;
+  --stompbox-label: #000;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #303030;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+button {
+  &:focus {
+    outline: 0;
+  }
+}
+
+.mat-drawer .mat-form-field {
+  display: block;
+  margin: 8px;
+  font-size: 14px;
+}
+
+.visually-hidden {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}
+
+.connect-decorator {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 74px;
+    height: 74px;
+    background: #303030;
+    top: -9px;
+    border-radius: 50%;
+  }
+}
+
+jsr-stage .pedal {
+  display: inline-block;
+  margin: 12px 24px;
+}
+
+jsr-stage .ng-sg-placeholder ~ .pedal {
+  pointer-events: none;
+}
+
+jsr-stage .ng-sg-placeholder .pedal .wrap {
+  background-color: rgba(#69f0ae, 0.5);
+  border: 1px solid #69f0ae;
+  box-shadow: none;
+
+  > * {
+    display: none;
+  }
+}

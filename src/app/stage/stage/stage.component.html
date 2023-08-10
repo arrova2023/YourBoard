@@ -1,0 +1,186 @@
+<jsr-page-actions>
+  <div class="connect-decorator">
+    <button
+      mat-fab
+      class="line-toggle"
+      type="button"
+      [attr.aria-label]="
+        isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
+      "
+      [attr.aria-pressed]="isLinePlugged"
+      [matTooltip]="
+        isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
+      "
+      [color]="isLinePlugged ? 'accent' : 'warn'"
+      (click)="toggleLineConnection()"
+    >
+      <mat-icon svgIcon="settings_input_svideo"></mat-icon>
+    </button>
+  </div>
+
+  <mat-menu #appMenu="matMenu">
+    <button
+      type="button"
+      role="menuitemradio"
+      mat-menu-item
+      (click)="blankPreset()"
+    >
+      <mat-icon
+        [svgIcon]="
+          selectedPresetId === ''
+            ? 'radio_button_checked'
+            : 'radio_button_unchecked'
+        "
+      ></mat-icon>
+      <span>Default</span>
+    </button>
+    <button
+      type="button"
+      mat-menu-item
+      role="menuitemradio"
+      *ngFor="let preset of presets"
+      (click)="activatePreset(preset.id)"
+    >
+      <mat-icon
+        [svgIcon]="
+          selectedPresetId === preset.id
+            ? 'radio_button_checked'
+            : 'radio_button_unchecked'
+        "
+      ></mat-icon>
+      <span>{{ preset.name }}</span>
+    </button>
+  </mat-menu>
+
+  <button
+    type="button"
+    aria-label="Presets"
+    mat-icon-button
+    matTooltip="Presets"
+    [matMenuTriggerFor]="appMenu"
+  >
+    <mat-icon
+      [matBadge]="presets.length | number"
+      matBadgeColor="accent"
+      matBadgePosition="above before"
+      [matBadgeHidden]="!presets.length"
+      svgIcon="list"
+    ></mat-icon>
+  </button>
+
+  <button
+    type="button"
+    aria-label="New preset"
+    class="toolbar-btn"
+    mat-icon-button
+    matTooltip="New preset"
+    (click)="blankPreset()"
+  >
+    <mat-icon svgIcon="blank"></mat-icon>
+  </button>
+
+  <button
+    type="button"
+    aria-label="Save preset"
+    class="toolbar-btn"
+    mat-icon-button
+    matTooltip="Save preset"
+    (click)="requestSavePreset()"
+  >
+    <mat-icon svgIcon="save"></mat-icon>
+  </button>
+
+  <button
+    *ngIf="selectedPresetId"
+    type="button"
+    aria-label="Delete preset"
+    class="toolbar-btn"
+    mat-icon-button
+    matTooltip="Delete preset"
+    (click)="deletePreset()"
+  >
+    <mat-icon svgIcon="delete"></mat-icon>
+  </button>
+</jsr-page-actions>
+
+<jsr-nav-configurations>
+  <mat-form-field appearance="fill">
+    <mat-label>Input device</mat-label>
+    <mat-select
+      [value]="activeInputDevice$ | async"
+      (selectionChange)="handleInputDeviceChange($event)"
+    >
+      <mat-option *ngFor="let input of inputDevices" [value]="input.id">{{
+        input.label
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Output device</mat-label>
+    <mat-select
+      [value]="activeOutputDevice$ | async"
+      (selectionChange)="handleOutputDeviceChange($event)"
+    >
+      <mat-option *ngFor="let output of outputDevices" [value]="output.id">{{
+        output.label
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</jsr-nav-configurations>
+
+<jsr-amp [config]="config.cabinet"></jsr-amp>
+
+<div>
+  <ngx-loadable
+    *ngFor="let pedal of config?.pedals"
+    ngSortgridItem
+    [ngSortGridItems]="config?.pedals"
+    [autoScroll]="true"
+    [module]="pedal.model"
+    [show]="true"
+    (init)="initPedal($event, pedal, pedal.model)"
+    (sorted)="dropPedal($event, pedal)"
+  ></ngx-loadable>
+</div>
+
+<p *ngIf="!config?.pedals?.length" class="empty-board-message mat-subheading-2">
+  No effects in you pedalboard :(<br />
+  Use "Add new effect" button below to pick one.
+</p>
+
+<button
+  mat-fab
+  aria-label="Add new effect"
+  type="button"
+  class="add-button"
+  color="accent"
+  matTooltip="Add new effect"
+  [matMenuTriggerFor]="pedalBoardMenu"
+>
+  <mat-icon svgIcon="add"></mat-icon>
+</button>
+
+<mat-menu #pedalBoardMenu="matMenu">
+  <button
+    *ngFor="let type of effectTypes"
+    type="button"
+    mat-menu-item
+    [matMenuTriggerFor]="pedalsMenu"
+    [matMenuTriggerData]="{ type: type }"
+  >
+    {{ type }}
+  </button>
+</mat-menu>
+
+<mat-menu #pedalsMenu="matMenu">
+  <ng-template matMenuContent let-type="type">
+    <button
+      type="button"
+      mat-menu-item
+      *ngFor="let pedal of availablePedals | pickByProp: 'type':type"
+      (click)="addPedal(pedal.id)"
+    >
+      {{ pedal.brand }} {{ pedal.name }} {{ pedal.model }}
+    </button>
+  </ng-template>
+</mat-menu>

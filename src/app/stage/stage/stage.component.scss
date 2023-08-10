@@ -1,0 +1,21 @@
+:host {
+  display: grid;
+  color: #000;
+
+  .add-button {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 1;
+  }
+
+  .empty-board-message {
+    color: rgba(#fff, 0.8);
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  ngx-loadable {
+    display: inline-block;
+  }
+}

@@ -1,0 +1,33 @@
+<label>
+  <ng-container *ngIf="labelPosition === 'top'">
+    {{ label }}
+  </ng-container>
+
+  <input
+    #control
+    class="visually-hidden"
+    type="range"
+    [min]="min | number"
+    [max]="max | number"
+    [step]="step | number"
+    [value]="value | number"
+    (change)="onValueChange($event)"
+  />
+
+  <div
+    #knob
+    class="knob"
+    [matTooltip]="value | valueLabel: units:showValueSign"
+    [matTooltipPosition]="labelPosition === 'top' ? 'above' : 'below'"
+    [matTooltipShowDelay]="100"
+  >
+    <div class="knob-focus"></div>
+    <div class="dot">
+      <div class="center-dot"></div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="labelPosition === 'bottom'">
+    {{ label }}
+  </ng-container>
+</label>

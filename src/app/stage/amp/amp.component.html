@@ -1,0 +1,133 @@
+<div class="inputs" class="theme-{{ selectedModel.theme }}">
+  <button
+    type="button"
+    aria-label="Select cabinet model"
+    mat-icon-button
+    matTooltip="Select cabinet model"
+    [matMenuTriggerFor]="menu"
+  >
+    <mat-icon svgIcon="more_vert"></mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <button
+      type="button"
+      aria-label="Select cabinet"
+      role="menuitemradio"
+      mat-menu-item
+      *ngFor="let cabinet of cabinets"
+      (click)="selectCabinet(cabinet)"
+    >
+      <mat-icon
+        [svgIcon]="
+          selectedModel === cabinet
+            ? 'radio_button_checked'
+            : 'radio_button_unchecked'
+        "
+      ></mat-icon>
+      <span>{{ cabinet.brand }} {{ cabinet.model }}</span>
+    </button>
+  </mat-menu>
+
+  <h2 class="branding" *ngIf="!selectedModel.logo">
+    {{ selectedModel.brand }}
+    <span class="model">{{ selectedModel.model }}</span>
+  </h2>
+
+  <svg:svg
+    *ngIf="selectedModel.logo"
+    class="logo"
+    [attr.viewBox]="selectedModel.logoViewBox"
+  >
+    <svg:use [attr.xlink:href]="selectedModel.logo"></svg:use>
+  </svg:svg>
+</div>
+<div class="plate" class="theme-{{ selectedModel.theme }}">
+  <section class="volume-controls">
+    <jsr-knob
+      dots
+      silver
+      class="master theme-{{ selectedModel.theme }}"
+      label="MASTER"
+      [value]="masterVolume$ | async"
+      (valueChanged)="updateMasterVolume($event)"
+    >
+    </jsr-knob>
+
+    <jsr-knob
+      dots
+      silver
+      class="gain theme-{{ selectedModel.theme }}"
+      label="VOLUME"
+      [min]="1"
+      [max]="selectedModel.maxVolume"
+      [step]="0.5"
+      [value]="effect.makeUpGain$ | async"
+      (valueChanged)="effect.gain = $event"
+    >
+    </jsr-knob>
+  </section>
+
+  <section class="eq">
+    <jsr-knob
+      dots
+      silver
+      class="bass theme-{{ selectedModel.theme }}"
+      label="BASS"
+      units="dB"
+      [min]="-12"
+      [max]="12"
+      [step]="0.5"
+      [showValueSign]="true"
+      [value]="effect.bass$ | async"
+      (valueChanged)="effect.bass = $event"
+    >
+    </jsr-knob>
+
+    <jsr-knob
+      dots
+      silver
+      class="mid theme-{{ selectedModel.theme }}"
+      label="MID"
+      units="dB"
+      [min]="-12"
+      [max]="12"
+      [step]="0.5"
+      [showValueSign]="true"
+      [value]="effect.mid$ | async"
+      (valueChanged)="effect.mid = $event"
+    >
+    </jsr-knob>
+
+    <jsr-knob
+      dots
+      silver
+      class="treble theme-{{ selectedModel.theme }}"
+      label="TREBLE"
+      units="dB"
+      [min]="-12"
+      [max]="12"
+      [step]="0.5"
+      [showValueSign]="true"
+      [value]="effect.treble$ | async"
+      (valueChanged)="effect.treble = $event"
+    >
+    </jsr-knob>
+  </section>
+
+  <h2 *ngIf="selectedModel.logo" class="model">{{ selectedModel.model }}</h2>
+
+  <div class="switch">
+    <jsr-led [active]="effect.active$ | async"></jsr-led>
+    <button
+      type="button"
+      aria-label="Toggle cabinet"
+      [attr.aria-pressed]="effect.active$ | async"
+      class="switch-button"
+      [class.active]="effect.active$ | async"
+      (click)="effect.toggleBypass()"
+    >
+      |
+    </button>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<jsr-stompbox boss (remove)="remove.emit()">
+  <div *ngIf="this.effect.note$ | async as note" class="pedal-layout">
+    <div class="controls">
+      <p class="led-label">check</p>
+      <p class="minus">-50</p>
+      <p class="zero">0</p>
+      <p class="plus">50</p>
+      <div
+        class="cents"
+        [ngClass]="note.cents | pitchClassName"
+        [style.--cents-x]="note.cents | centsPosition"
+      ></div>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-seven-segment-lcd [symbol]="note.symbol[0]"></jsr-seven-segment-lcd>
+      <div class="sharp" [class.active]="note.symbol.length > 1">♯</div>
+      <p class="lcd-sign">440 Hz</p>
+    </div>
+
+    <jsr-large-switch
+      center
+      class="switch"
+      [name]="info.name"
+      [active]="effect.active$ | async"
+      [model]="info.model"
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
+  </div>
+</jsr-stompbox>

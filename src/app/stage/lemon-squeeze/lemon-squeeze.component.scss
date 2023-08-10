@@ -1,0 +1,74 @@
+:host {
+  --stompbox-bg: #0b3e85;
+  --stompbox-label: #eff0f2;
+  display: block;
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'switch';
+    grid-template-rows: 1fr 65%;
+    height: 100%;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-areas:
+      '.     label  label .   '
+      '.     led    led   .   '
+      'level attack ratio comp';
+    grid-auto-columns: 1fr;
+    text-align: center;
+    padding: 4px 6px 0;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      bottom: 4px;
+      left: 6px;
+      border-radius: 0.25em;
+      background-color: #8e8989;
+      z-index: 0;
+    }
+
+    > * {
+      z-index: 1;
+    }
+  }
+
+  .led-label {
+    grid-area: label;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin: 3px 0 0;
+    color: var(--stompbox-label);
+  }
+
+  jsr-led {
+    grid-area: led;
+    justify-self: center;
+  }
+
+  .level {
+    grid-area: level;
+  }
+
+  .attack {
+    grid-area: attack;
+  }
+
+  .ratio {
+    grid-area: ratio;
+  }
+
+  .comp {
+    grid-area: comp;
+  }
+
+  .switch {
+    --stompbox-label: #c8d6df;
+    grid-area: switch;
+  }
+}

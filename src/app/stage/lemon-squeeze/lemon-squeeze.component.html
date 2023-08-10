@@ -1,0 +1,59 @@
+<jsr-stompbox boss (remove)="remove.emit()">
+  <div class="pedal-layout">
+    <div class="controls">
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-knob
+        dots
+        silver
+        small
+        class="level"
+        label="LEVEL"
+        labelPosition="top"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"
+      ></jsr-knob>
+      <jsr-knob
+        dots
+        silver
+        small
+        class="attack"
+        label="ATTACK"
+        labelPosition="top"
+        [value]="effect.attack$ | async"
+        (valueChanged)="effect.attack = $event"
+      ></jsr-knob>
+      <jsr-knob
+        dots
+        silver
+        small
+        class="ratio"
+        label="RATIO"
+        [min]="1"
+        [max]="10"
+        [step]="1"
+        labelPosition="top"
+        [value]="effect.ratio$ | async"
+        (valueChanged)="effect.ratio = $event"
+      ></jsr-knob>
+      <jsr-knob
+        dots
+        silver
+        small
+        class="comp"
+        label="COMP"
+        labelPosition="top"
+        [value]="effect.threshold$ | async"
+        (valueChanged)="effect.threshold = $event"
+      ></jsr-knob>
+    </div>
+
+    <jsr-large-switch
+      class="switch"
+      [name]="info.name"
+      [active]="effect.active$ | async"
+      [model]="info.model"
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
+  </div>
+</jsr-stompbox>

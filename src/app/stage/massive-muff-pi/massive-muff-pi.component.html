@@ -1,0 +1,33 @@
+<jsr-stompbox (remove)="remove.emit()">
+  <div class="pedal-layout">
+    <div class="controls">
+      <jsr-knob
+        small-label
+        class="vol"
+        label="VOL"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"
+      ></jsr-knob>
+      <jsr-knob
+        small-label
+        class="tone"
+        label="TONE"
+        [value]="effect.tone$ | async"
+        (valueChanged)="effect.tone = $event"
+      ></jsr-knob>
+      <jsr-knob
+        small-label
+        class="sustain"
+        label="SUSTAIN"
+        [value]="effect.sustain$ | async"
+        (valueChanged)="effect.sustain = $event"
+      ></jsr-knob>
+    </div>
+    <h3 class="name">{{ info.name }}</h3>
+    <jsr-small-switch
+      class="switch"
+      [active]="effect.active$ | async"
+      (switch)="effect.toggleBypass()"
+    ></jsr-small-switch>
+  </div>
+</jsr-stompbox>

@@ -1,0 +1,84 @@
+:host {
+  --stompbox-bg: #cbcac6;
+  --muff-color: #8c161e;
+  display: block;
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'name' 'switch';
+    grid-template-rows: 1fr auto 42%;
+    height: 100%;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-areas:
+      'vol  .    sustain'
+      'vol  tone sustain'
+      '.    tone .      ';
+    text-align: center;
+    padding: 18px 6px 0;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      bottom: 6px;
+      left: 6px;
+      border-radius: 0.25em;
+      border: 2px solid #000;
+      z-index: 0;
+    }
+
+    > * {
+      z-index: 1;
+    }
+  }
+
+  .tone {
+    grid-area: tone;
+  }
+
+  .sustain {
+    grid-area: sustain;
+  }
+
+  .vol {
+    grid-area: vol;
+  }
+
+  .name {
+    grid-area: name;
+    margin: 16px 8px;
+    color: var(--stompbox-bg);
+    font-size: 22px;
+    line-height: 22px;
+    text-align: center;
+    text-shadow: 1px 1px var(--muff-color), -1px -1px var(--muff-color),
+      -1px 1px var(--muff-color), 1px -1px var(--muff-color),
+      -2px 1px var(--muff-color), -3px 2px var(--muff-color),
+      -2px 3px var(--muff-color);
+  }
+
+  .switch {
+    grid-area: switch;
+    padding-top: 12px;
+    margin: 0 6px 6px;
+    border-radius: 0 0 0.25em 0.25em;
+    position: relative;
+    --stompbox-bg: #222;
+
+    &:after {
+      content: '';
+      display: block;
+      height: 4px;
+      background-color: #cbcac6;
+      border-top: 4px solid var(--muff-color);
+      position: absolute;
+      top: -8px;
+      left: 2px;
+      right: 2px;
+    }
+  }
+}

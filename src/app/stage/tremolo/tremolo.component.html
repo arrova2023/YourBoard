@@ -1,0 +1,49 @@
+<jsr-stompbox boss (remove)="remove.emit()">
+  <div class="pedal-layout">
+    <jsr-three-knob-layout>
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-knob
+        dots
+        gold
+        label="RATE"
+        units="Hz"
+        [min]="0.5"
+        [max]="8"
+        [step]="0.1"
+        [value]="effect.rate$ | async"
+        (valueChanged)="effect.rate = $event"
+      ></jsr-knob>
+      <jsr-knob
+        dots
+        gold
+        label="DEPTH"
+        units="%"
+        [min]="5"
+        [max]="100"
+        [step]="0.5"
+        [value]="effect.depth$ | async"
+        (valueChanged)="effect.depth = $event"
+      ></jsr-knob>
+      <jsr-knob
+        small
+        gold
+        label="WAVE"
+        labelPosition="top"
+        [startDegree]="-90"
+        [endDegree]="90"
+        [value]="effect.wave$ | async"
+        (valueChanged)="effect.wave = $event"
+      ></jsr-knob>
+    </jsr-three-knob-layout>
+
+    <jsr-large-switch
+      center
+      class="switch"
+      [name]="info.name"
+      [active]="effect.active$ | async"
+      [model]="info.model"
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
+  </div>
+</jsr-stompbox>

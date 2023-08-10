@@ -1,0 +1,11 @@
+<button
+  #control
+  type="button"
+  aria-label="Toggle effect"
+  [attr.aria-pressed]="active"
+  (click)="switch.emit()"
+>
+  <div class="hexagon"></div>
+</button>
+
+<jsr-led *ngIf="showLed" [active]="active"></jsr-led>

@@ -1,0 +1,39 @@
+<jsr-stompbox boss (remove)="remove.emit()">
+  <div class="pedal-layout">
+    <jsr-three-knob-layout>
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-knob
+        dots
+        silver
+        label="LEVEL"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"
+      ></jsr-knob>
+      <jsr-knob
+        dots
+        silver
+        label="DRIVE"
+        [value]="effect.distortion$ | async"
+        (valueChanged)="effect.distortion = $event"
+      ></jsr-knob>
+      <jsr-knob
+        silver
+        small
+        label="TONE"
+        labelPosition="top"
+        [value]="effect.tone$ | async"
+        (valueChanged)="effect.tone = $event"
+      ></jsr-knob>
+    </jsr-three-knob-layout>
+
+    <jsr-large-switch
+      center
+      class="switch"
+      [name]="info.name"
+      [active]="effect.active$ | async"
+      [model]="info.model"
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
+  </div>
+</jsr-stompbox>
